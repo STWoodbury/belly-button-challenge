@@ -40,10 +40,65 @@ function drawBar(sampleID) {
             type: "bar",
             orientation: "h"
         };
-
+        //set labels for chart and axes
+        let layout = {
+            title: {
+                text: `Top 10 OTU_IDS for Sample# ${sampleID}`
+            },
+            xaxis: {
+                title: {
+                    text: "Count"
+                }
+            }
+        }
+        // Data array
         let barData = [trace1]
-        
-        Plotly.newPlot("bar", barData)
+        // Plot the bar chart in "bar" div
+        Plotly.newPlot("bar", barData, layout)
+    });
+};
+
+//function to draw the bubble chart
+function drawBubble(sampleID) {
+    //read in the json data
+    d3.json(url).then((data)=> {
+        //filter for the sampleID
+        let selectedSampleData = 
+        data.samples.filter(selectedSample => selectedSample.id == sampleID);
+        //set trace for bubble chart
+        let trace = {
+            x: selectedSampleData[0].otu_ids,
+            y: selectedSampleData[0].sample_values,
+            text: selectedSampleData[0].otu_labels,
+            mode: 'markers',
+            marker: {
+            colorscale: 'Jet',    
+            color: selectedSampleData[0].otu_ids,
+            size: selectedSampleData[0].sample_values
+
+            }
+        };
+        //Set layout for x-axis title
+        let layout = {
+            title: {
+                text: `Microbial Belly Button Population for Sample# ${sampleID}`
+            },
+            xaxis: {
+                title: {
+                    text: "OTU ID"
+                }
+            },
+            yaxis: {
+                title: {
+                    text: "Count"
+                }
+            }
+        }
+        // Data array
+        let bubbleData = [trace];
+        // Plot the bar chart in "bubble" div
+        Plotly.newPlot("bubble", bubbleData, layout);
+
     });
 };
 
@@ -62,16 +117,21 @@ function init() {
         }
         //initialize the charts from the default (0) name
 
-    getMetaData(names[0])
+    getMetaData(names[0]);
     drawBar(names[0]);
+    drawBubble(names[0]);
     });
 };
 
 function optionChanged() {
+    //select the dropdown and create variable to hold the value
     let name = d3.select("#selDataset").property("value");
+    //reset the demographics pane
     d3.select('#sample-metadata').html("");
+    //run all functions with new sampleID
     getMetaData(name)
     drawBar(name)
+    drawBubble(name)
 }
 init();
 
