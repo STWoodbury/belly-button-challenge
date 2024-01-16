@@ -43,7 +43,7 @@ function drawBar(sampleID) {
         //set labels for chart and axes
         let layout = {
             title: {
-                text: `Top 10 OTU_IDS for Sample# ${sampleID}`
+                text: `Top 10 OTU_IDS for Sample #${sampleID}`
             },
             xaxis: {
                 title: {
@@ -75,13 +75,12 @@ function drawBubble(sampleID) {
             colorscale: 'Jet',    
             color: selectedSampleData[0].otu_ids,
             size: selectedSampleData[0].sample_values
-
             }
         };
         //Set layout for x-axis title
         let layout = {
             title: {
-                text: `Microbial Belly Button Population for Sample# ${sampleID}`
+                text: `Microbial Belly Button Population for Sample #${sampleID}`
             },
             xaxis: {
                 title: {
@@ -102,6 +101,65 @@ function drawBubble(sampleID) {
     });
 };
 
+//function to draw the gauge
+function drawGauge(sampleID) {
+    d3.json(url).then((data) => {
+        //assign metadata to variable
+        let sampleMetadata = 
+        data.metadata.filter(selectedSample => selectedSample.id == sampleID)
+        //build gauge chart
+        let trace = {
+            type: "indicator",
+            mode: "gauge+number",
+            value: sampleMetadata[0].wfreq,
+            gauge: {
+                axis: { 
+                range: [0, 10], 
+                ticks: '',
+                tickvals: [0,1,2,3,4,5,6,7,8,9,10],
+                showticklabels: true,
+                },
+                steps: [
+                    { range: [0, 1], color: "rgb(200, 255, 200)"},
+                    { range: [1, 2], color: "rgb(150, 255, 150)"},
+                    { range: [2, 3], color: "rgb(100, 255, 100)"},
+                    { range: [3, 4], color: "rgb(50, 255, 50)"},
+                    { range: [4, 5], color: "rgb(0, 200, 0)"},
+                    { range: [5, 6], color: "rgb(0, 150, 0)"},
+                    { range: [6, 7], color: "rgb(0, 100, 0)"},
+                    { range: [7, 8], color: "rgb(0, 50, 0)"},
+                    { range: [8, 9], color: "rgb(0, 25, 0)"},
+                    { range: [9, 10], color: "rgb(0, 0, 0)"},
+                ],
+                threshold: {
+                line: { color: "red", width: 3 },
+                thickness: .75,
+                value: sampleMetadata[0].wfreq,
+                visible: true,
+                }
+            }
+        }
+        let layout = {
+            title: `Belly Button Scrubs per week (Sample #${sampleID})`
+        }
+        let gaugeData = [trace]
+        Plotly.newPlot("gauge", gaugeData, layout)
+    });
+};
+
+//function for changing the dropdown
+function optionChanged() {
+    //select the dropdown and create variable to hold the value
+    let name = d3.select("#selDataset").property("value");
+    //reset the demographics pane
+    d3.select('#sample-metadata').html("");
+    //run all functions with new sampleID
+    getMetaData(name)
+    drawBar(name)
+    drawBubble(name)
+    drawGauge(name)
+}
+
 //initialize page
 function init() {
     //select and populate the dropdown
@@ -120,18 +178,9 @@ function init() {
     getMetaData(names[0]);
     drawBar(names[0]);
     drawBubble(names[0]);
+    drawGauge(names[0]);
     });
 };
 
-function optionChanged() {
-    //select the dropdown and create variable to hold the value
-    let name = d3.select("#selDataset").property("value");
-    //reset the demographics pane
-    d3.select('#sample-metadata').html("");
-    //run all functions with new sampleID
-    getMetaData(name)
-    drawBar(name)
-    drawBubble(name)
-}
 init();
 
