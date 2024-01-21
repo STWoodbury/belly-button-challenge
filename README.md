@@ -9,7 +9,7 @@ The website created by this repository, hosted at [This "Github Pages" Page](htt
  <ol>
     <li>The subject's demographic data <i>(including ethnicity, age, gender, location, belly button type("innie/outie"), and the frequency with which they wash their belly buttons)</i></li> 
     <li>A bar graph outlining the top 10 microbes observed in the sample<i>(by population)</i></li>
-    <li>A bubble chart, illustrating all microbes observed in the sample<i>(with size and color of bubbles corresponding to population and taxonomy, respectively)</i></li>>
+    <li>A bubble chart, illustrating all microbes observed in the sample<i>(with size and color of bubbles corresponding to population and taxonomy, respectively)</i></li>
     <li>A gauge chart, illustrating the subjects' wash frequency</li>
 </ol>
 
@@ -30,7 +30,7 @@ All code can be found in the [index.html](index.html), [app.js](static/js/app.js
 
 ### Method:
 
-The [app.js](static/js/app.js). Begins by setting a constant for the url of the JSON file from the biodiversity database for use with the contained functions.
+[app.js](static/js/app.js) begins by setting a constant for the url of the JSON file from the biodiversity database for use with the contained functions.
 
 The file contains the following functions to handle the data, and allow user interactivity:
 
@@ -38,7 +38,7 @@ The file contains the following functions to handle the data, and allow user int
     <li>init
         <ul><li>The "init" function initializes the page upon loading, selecting the dropdown menu using <code>d3.select</code>, then uses <code>d3.json</code> to extract the json from the url constant. It then extracts the "data.names" object from the dataset, looping through them and populating the dropdown menu with each value using <code>dropdownmenu.append</code>. Resulting in the following dropdown:
         
-        <img src="images/dropdown.png">
+        <img src="images/dropdown.png"/>
 
         The code then passes the first value to each of the "getMetaData", "drawBar","drawBubble" and "drawGauge" functions, thus initializing each visualization with the sample "#940"</li></ul>
     </li>
