@@ -38,7 +38,7 @@ The file contains the following functions to handle the data, and allow user int
     <li>init
         <ul><li>The "init" function initializes the page upon loading, selecting the dropdown menu using <code>d3.select</code>, then uses <code>d3.json</code> to extract the json from the url constant. It then extracts the "data.names" object from the dataset, looping through them and populating the dropdown menu with each value using <code>dropdownmenu.append</code>. Resulting in the following dropdown:
         
-        !<img src="images/dropdown.png"/>
+            ![](images/dropdown.png)
 
         The code then passes the first value to each of the "getMetaData", "drawBar","drawBubble" and "drawGauge" functions, thus initializing each visualization with the sample "#940"</li></ul>
     </li>
