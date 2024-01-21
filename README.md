@@ -1,1 +1,3 @@
 # belly-button-challenge
+
+This repository explores the [Belly Button Biodiversity Database](https://robdunnlab.com/projects/belly-button-biodiversity/), which explores one of the most diverse and mysterious habitats on earth: the human belly button. The study utilized taxonomic data from belly button swabs of 152 subjects to compare the populations of various microflora, and establish the effect of variables such as number of belly button washes per week on the variety and distribution of these microbes. The resulting JSON dataset can be found [HERE](https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json)
