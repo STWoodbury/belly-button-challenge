@@ -36,9 +36,21 @@ The file contains the following functions to handle the data, and allow user int
 
 <ol>
     <li>init
-        <ul><li>The "init" function initializes the page upon loading, selecting the dropdown menu using <code>d3.select</code>, then uses <code>d3.json</code> to extract the json from the url constant. It then extracts the "data.names" object from the dataset, looping through them and populating the dropdown menu with each value using <code>dropdownmenu.append</code>. Resulting in the following dropdown:
-        
-           ![Alt text](image.png)
-
-        The code then passes the first value to each of the "getMetaData", "drawBar","drawBubble" and "drawGauge" functions, thus initializing each visualization with the sample "#940"</li></ul>
+        <ul><li>The "init" function initializes the page upon loading, selecting the dropdown menu using <code>d3.select</code>, then uses <code>d3.json</code> to extract the json from the url constant. It then extracts the "data.names" object from the dataset, looping through them and populating the dropdown menu with each value using <code>dropdownmenu.append</code>. The code then passes the first value (#940) to each of the "getMetaData", "drawBar","drawBubble" and "drawGauge" functions, thus initializing each visualization with the sample "#940"</li></ul>
     </li>
+    <li>getMetaData
+        <ul><li>The "getMetaData" function takes the name passed from "init" or "optionChanged"(discussed below) and uses that as a parameter to filter the data from <code>d3.json</code> to match the sample id selected by the user. It then console.logs this data, uses <code>d3.select</code> to select the "#sample-metadata" div, assigns each key/value pair of the filtered data to an object, then loops through to append each of these to the 'p' text within the selected div.</li></ul>
+    </li>
+    <li>drawBar
+        <ul><li>The "drawBar" function takes the name passed from "init" or "optionChanged"(discussed below) and uses that as a parameter to filter the data from <code>d3.json</code> to match the sample id selected by the user. The code then slices the first ten "sample_values","otu_ids" and "otu_labels" from the filtered dataset, reverses the order of the slice to go from smallest to largest, then appends 'OTU' to the name of each item in the otu_ids using mapping (for labeling purposes). These filtered and sliced datasets are then used with plotly to create a horizontal bar chart, setting the x value to "sample_values", y value to "otu_ids" and text value to "otu_labels". The resultant plotly plot is placed within the "bar" div in the HTML</li></ul>
+    </li>
+    <li>drawBubble
+        <ul><li>The "drawBubble" function takes the name passed from "init" or "optionChanged"(discussed below) and uses that as a parameter to filter the data from <code>d3.json</code> to match the sample id selected by the user. The code then sets a trace for charting by plotly, setting x values to "otu_ids", y values to "sample_values" and text to "otu_labels". The code sets the mode to "markers", setting the color of the markers based on "otu_ids" and the marker size based on "sample_values". Finally, it adds a title and axis labels under the "layout" variable, and displays the resultant bubble chart within the "bubble" div in the HTML</li></ul>
+    </li>
+    <li>drawGauge
+        <ul><li>he "drawGauge" function takes the name passed from "init" or "optionChanged"(discussed below) and uses that as a parameter to filter the data from <code>d3.json</code> to match the sample id selected by the user. It then creates a trace for a plotly gauge chart, setting the type to "indicator" and the mode to "gauge+number" to show the data with the gauge itself. Finally, it sets the value to the filtered data "wfreq", and sets the parameters for the gauge including the range of the gauge, colors and range of each step, and the threshold values. It sets labels and places the gauge visualization within the "gauge" div in the HTML</li></ul>
+    </li>
+    <li>optionChanged
+        <ul><li>The optionChanged function handles the site's interactivity, and allows the user to explore each sample's data through the use of the dropdown menu. The HTML uses an onchange event listener to call the optionChanged function with (this.value) as a parameter. The function first resets the html of the "#sample-metadata" div and then uses the passed value as a parameter in the "getMetaData","drawBar","drawBubble" and "drawGauge" functions to refresh each visualization with the data from the selected sample id. </li></ul>
+    </li>
+    </ol>

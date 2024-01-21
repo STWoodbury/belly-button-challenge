@@ -148,16 +148,16 @@ function drawGauge(sampleID) {
 };
 
 //function for changing the dropdown
-function optionChanged() {
+function optionChanged(value) {
     //select the dropdown and create variable to hold the value
-    let name = d3.select("#selDataset").property("value");
+    //let name = d3.select("#selDataset").property("value");
     //reset the demographics pane
     d3.select('#sample-metadata').html("");
     //run all functions with new sampleID
-    getMetaData(name)
-    drawBar(name)
-    drawBubble(name)
-    drawGauge(name)
+    getMetaData(value)
+    drawBar(value)
+    drawBubble(value)
+    drawGauge(value)
 }
 
 //initialize page
